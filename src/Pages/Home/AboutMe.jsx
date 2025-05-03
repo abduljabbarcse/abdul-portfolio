@@ -63,7 +63,7 @@ export default function AboutMe() {
         data-aos="fade-right"
       >
         <Avatar
-          src={process.env.PUBLIC_URL + "/img/ab1.jpg"}
+          src={process.env.PUBLIC_URL + "/img/abdul.jpeg"}
           alt="Abdul Jabbar"
           sx={{
             width: { xs: 250, md: 350 },
