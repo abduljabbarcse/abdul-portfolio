@@ -1,60 +1,159 @@
-import data from "../../data/index.json";
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import React, { useEffect } from 'react';
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  Avatar,
+  useTheme,
+  useMediaQuery,
+  Divider
+} from '@mui/material';
+import { Star } from '@mui/icons-material';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 export default function Testimonial() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   useEffect(() => {
     AOS.init({
-      // Customize AOS initialization options here if needed
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: true
     });
   }, []);
 
+  // Add the Heinwig testimonial to your data
+  const testimonials = [
+    {
+      id: "1",
+      count: "5",
+      description: "Abdul Jabbar has shown exceptional dedication and hard work in completing projects on time, often working late into the night. His commitment to timely delivery and going the extra mile has been appraised by both his team lead and manager.",
+      author_name: "Team Lead",
+      author_designation: "Ascending Software"
+    },
+    {
+      id: "2",
+      count: "5",
+      description: "Abdul has demonstrated exceptional technical skills and dedication in developing our Marisec-AI platform. His ability to quickly grasp complex requirements and implement elegant solutions has been invaluable to our team.",
+      author_name: "Krishnan Unni S",
+      author_designation: "Co-Founder, Heinwig Technologies Pvt Ltd"
+    }
+  ];
+
   return (
-    <section className="testimonial--section" id="testimonial">
-      <div className="portfolio--container-box">
-        <div className="portfolio--container">
-          <p className="sub--title">Company Feedback</p>
-          <h2 className="sections--heading"></h2>
-        </div>
-      </div>
-      <div
-        className="portfolio--section--container"
+    <Box
+      id="testimonial"
+      component="section"
+      sx={{
+        py: 10,
+        px: isMobile ? 2 : 10,
+        backgroundColor: theme.palette.background.default,
+      }}
+    >
+      {/* Header Section */}
+      <Box sx={{ textAlign: 'center', mb: 6 }}>
+        <Typography
+          variant="overline"
+          color="primary"
+          sx={{
+            fontWeight: 'bold',
+            letterSpacing: 2,
+            display: 'block',
+            mb: 1
+          }}
+        >
+          Company Feedback
+        </Typography>
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 'bold',
+            background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.secondary.main} 90%)`,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            mb: 2
+          }}
+        >
+          What People Say
+        </Typography>
+      </Box>
+
+      {/* Testimonials Grid */}
+      <Grid
+        container
+        spacing={4}
+        justifyContent="center"
         data-aos="flip-left"
         data-aos-easing="ease-out-cubic"
-        data-aos-duration="2000"
+        data-aos-duration="1000"
       >
-        {data?.testimonial?.map((item, index) => (
-          <div key={index} className="testimonial--section--card">
-            <div className="testimonial--section--card--review">
-              {Array.from({ length: 5 }, (reviews, index) => (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="27"
-                  height="26"
-                  viewBox="0 0 27 26"
-                  fill="none"
-                >
-                  <path
-                    d="M12.0945 0.953177C12.5528 -0.135435 14.1138 -0.135434 14.5722 0.95318L17.2772 7.37836C17.4705 7.8373 17.9074 8.15087 18.4089 8.19059L25.4302 8.74669C26.6199 8.84091 27.1022 10.3076 26.1959 11.0746L20.8464 15.6016C20.4643 15.925 20.2973 16.4324 20.4141 16.9158L22.0484 23.6847C22.3253 24.8315 21.0625 25.7381 20.044 25.1235L14.0327 21.4961C13.6033 21.237 13.0633 21.237 12.634 21.4961L6.62265 25.1235C5.60415 25.7381 4.34127 24.8315 4.61818 23.6847L6.25256 16.9158C6.3693 16.4324 6.20243 15.925 5.82034 15.6016L0.47075 11.0746C-0.435624 10.3076 0.0467572 8.84091 1.23639 8.74669L8.25781 8.19059C8.75933 8.15087 9.19621 7.8373 9.38942 7.37836L12.0945 0.953177Z"
-                    fill="#006B6A"
+        {testimonials.map((item, index) => (
+          <Grid item xs={12} md={6} lg={4} key={index}>
+            <Card
+              sx={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                p: 3,
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-5px)',
+                  boxShadow: theme.shadows[6]
+                }
+              }}
+            >
+              {/* Star Ratings */}
+              <Box sx={{ display: 'flex', mb: 2 }}>
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontSize: '1.8rem'
+                    }}
                   />
-                </svg>
-              ))}
-            </div>
-            <p className="text-md">{item.description}</p>
-            <div className="testimonial--section--card--author--detail">
-              <div>
-                <p className="text-md testimonial--author--name">
-                  {item.author_name}
-                </p>
-                <p className="text-md testimonial--author--designation">
-                  {item.author_designation}
-                </p>
-              </div>
-            </div>
-          </div>
+                ))}
+              </Box>
+
+              {/* Testimonial Text */}
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{ mb: 3, fontStyle: 'italic' }}
+              >
+                "{item.description}"
+              </Typography>
+
+              <Divider sx={{ my: 2 }} />
+
+              {/* Author Info */}
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 'auto' }}>
+                <Avatar
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    mr: 2,
+                    backgroundColor: theme.palette.primary.main
+                  }}
+                >
+                  {item.author_name.charAt(0)}
+                </Avatar>
+                <Box>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    {item.author_name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {item.author_designation}
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+          </Grid>
         ))}
-      </div>
-    </section>
+      </Grid>
+    </Box>
   );
 }
